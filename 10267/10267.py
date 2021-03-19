@@ -5,6 +5,7 @@ from copy import deepcopy
 image = None
 region = None
 
+
 def color_pixel(row, column, color):
 
     global image
@@ -137,24 +138,33 @@ def fill_region(row, column, color):
                 image[_r][_c] = color
 
 
+def write_name(name):
+    print(name)
+
+
 def process_command(command):
 
     global image
 
     if command[0] == "I":
-        create_image(command[1], command[2])
+        create_image(int(command[1]), int(command[2]))
     if command[0] == "C":
         clear_image()
     if command[0] == "L":
-        color_pixel(command[2], command[1], command[3])
+        color_pixel(int(command[2]), int(command[1]), command[3])
     if command[0] == "V":
-        draw_vertical(command[2], command[3], command[1], command[4])
+        draw_vertical(int(command[2]), int(command[3]), int(command[1]), command[4])
     if command[0] == "H":
-        draw_horizontal(command[3], command[1], command[2], command[4])
+        draw_horizontal(int(command[3]), int(command[1]), int(command[2]), command[4])
     if command[0] == "K":
-        fill_rectangle(command[3], command[4], command[1], command[2], command[5])
+        fill_rectangle(int(command[3]), int(command[4]), int(command[1]), int(command[2]), command[5])
     if command[0] == "F":
-        fill_region(command[2], command[1], command[3])
+        fill_region(int(command[2]), int(command[1]), command[3])
+    if command[0] == "S":
+        write_name(command[1])
+        print_image()
+    if command[0] == "X":
+        sys.exit()
 
 
 def print_image():
@@ -169,28 +179,34 @@ def print_image():
 
 def main():
 
-    commands = [
-        ["I", 5, 6],
-        ["L", 2, 1, "G"],
-        ["L", 1, 5, "Y"],
-        ["V", 4, 2, 4, "B"],
-        ["H", 1, 5, 2, "P"],
-        ["K", 3, 5, 5, 6, "R"]
-    ]
+    #commands = [
+    #    ["I", 5, 6],
+    #    ["L", 2, 1, "G"],
+    #    ["L", 1, 5, "Y"],
+    #    ["V", 4, 2, 4, "B"],
+    #    ["H", 1, 5, 2, "P"],
+    #    ["K", 3, 5, 5, 6, "R"]
+    #]
+    #for command in commands:
+    #    process_command(command)
+    #print_image()
+    #print("--------------------")
+    #commands1 = [
+    #    ["F", 2, 4, "Z"]
+    #]
+    #for command in commands1:
+    #    process_command(command)
+    #print_image()
+
+    commands = list()
+
+    with open("tests.txt") as f:
+        lines = f.readlines()
+        for line in lines:
+            commands.append(line.rstrip().split(" "))
 
     for command in commands:
         process_command(command)
-
-    print_image()
-    print("--------------------")
-    commands1 = [
-        ["F", 2, 4, "Z"]
-    ]
-
-    for command in commands1:
-        process_command(command)
-
-    print_image()
 
 
 if __name__ == '__main__':
