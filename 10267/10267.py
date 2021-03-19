@@ -3,7 +3,7 @@ from copy import deepcopy
 
 
 image = None
-
+region = None
 
 def color_pixel(row, column, color):
 
@@ -65,56 +65,61 @@ def fill_rectangle(row1, row2, column1, column2, color):
 def check_neighbour(r, c, color):
 
     global image
+    global region
+
     R = len(image)
     C = len(image[0])
     coordinates = list()
 
     if 0 <= r-1 <= R-1:
         if 0 <= c-1 <= C-1:
-            if image[r-1][c-1] == color:
+            if image[r-1][c-1] == color and region[r-1][c-1] == 0:
                 coordinates.append((r-1, c-1))
         if 0 <= c <= C-1:
-            if image[r-1][c] == color:
+            if image[r-1][c] == color and region[r-1][c] == 0:
                 coordinates.append((r-1, c))
         if 0 <= c+1 <= C-1:
-            if image[r-1][c+1] == color:
+            if image[r-1][c+1] == color and region[r-1][c+1] == 0:
                 coordinates.append((r-1, c+1))
 
     if 0 <= r <= R-1:
         if 0 <= c-1 <= C-1:
-            if image[r][c-1] == color:
+            if image[r][c-1] == color and region[r][c-1] == 0:
                 coordinates.append((r, c-1))
         if 0 <= c+1 <= C-1:
-            if image[r][c+1] == color:
+            if image[r][c+1] == color and region[r][c+1] == 0:
                 coordinates.append((r, c+1))
 
     if 0 <= r+1 <= R-1:
         if 0 <= c-1 <= C-1:
-            if image[r+1][c-1] == color:
+            if image[r+1][c-1] == color and region[r+1][c-1] == 0:
                 coordinates.append((r+1, c-1))
         if 0 <= c <= C-1:
-            if image[r+1][c] == color:
+            if image[r+1][c] == color and region[r+1][c] == 0:
                 coordinates.append((r+1, c))
         if 0 <= c+1 <= C-1:
-            if image[r+1][c+1] == color:
+            if image[r+1][c+1] == color and region[r+1][c+1] == 0:
                 coordinates.append((r+1, c+1))
 
     return coordinates
 
 
-def _fill_region(coordinates, color, region):
+def _fill_region(coordinates, color):
+
+    global region
 
     if not coordinates:
-        return region
+        return
     else:
         for r, c in coordinates:
             region[r][c] = 1
-            return _fill_region(check_neighbour(r, c, color), color, region)
+            _fill_region(check_neighbour(r, c, color), color)
 
 
-def fill_region(row, column, color):
+def fill_region(row, column, color_new):
 
     global image
+    global region
     r = row - 1
     c = column - 1
     region = deepcopy(image)
@@ -123,10 +128,13 @@ def fill_region(row, column, color):
         for _c, _column in enumerate(_row):
             region[_r][_c] = 0
 
-    region[r][c] = 1
-    coordinates = check_neighbour(r, c, color)
-    region = _fill_region(coordinates, color, region)
-    print(region)
+    color_old = image[r][c]
+    _fill_region([(r, c)], color_old)
+
+    for _r, _row in enumerate(region):
+        for _c, _column in enumerate(_row):
+            if region[_r][_c] == 1:
+                image[_r][_c] = color_new
 
 
 def process_command(command):
@@ -167,11 +175,19 @@ def main():
         ["L", 1, 5, "Y"],
         ["V", 4, 2, 4, "B"],
         ["H", 1, 5, 2, "P"],
-        ["K", 3, 5, 5, 6, "R"],
-        ["F", 2, 4, "Z"]
+        ["K", 3, 5, 5, 6, "R"]
     ]
 
     for command in commands:
+        process_command(command)
+
+    print_image()
+    print("--------------------")
+    commands1 = [
+        ["F", 2, 4, "Z"]
+    ]
+
+    for command in commands1:
         process_command(command)
 
     print_image()
