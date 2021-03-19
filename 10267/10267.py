@@ -62,13 +62,14 @@ def fill_rectangle(row1, row2, column1, column2, color):
         draw_horizontal(_r, column1, column2, color)
 
 
-def check_neighbour(r, c, color):
+def check_neighbour(r, c):
 
     global image
     global region
 
     R = len(image)
     C = len(image[0])
+    color = image[r][c]
     coordinates = list()
 
     if 0 <= r-1 <= R-1:
@@ -104,7 +105,7 @@ def check_neighbour(r, c, color):
     return coordinates
 
 
-def _fill_region(coordinates, color):
+def _fill_region(coordinates):
 
     global region
 
@@ -113,10 +114,10 @@ def _fill_region(coordinates, color):
     else:
         for r, c in coordinates:
             region[r][c] = 1
-            _fill_region(check_neighbour(r, c, color), color)
+            _fill_region(check_neighbour(r, c))
 
 
-def fill_region(row, column, color_new):
+def fill_region(row, column, color):
 
     global image
     global region
@@ -128,13 +129,12 @@ def fill_region(row, column, color_new):
         for _c, _column in enumerate(_row):
             region[_r][_c] = 0
 
-    color_old = image[r][c]
-    _fill_region([(r, c)], color_old)
+    _fill_region([(r, c)])
 
     for _r, _row in enumerate(region):
         for _c, _column in enumerate(_row):
             if region[_r][_c] == 1:
-                image[_r][_c] = color_new
+                image[_r][_c] = color
 
 
 def process_command(command):
