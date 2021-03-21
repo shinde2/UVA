@@ -1,3 +1,6 @@
+# use merge sort approach to keep
+# track of next winner in ballot list
+
 
 def count_votes(ballots):
 
