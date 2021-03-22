@@ -1,28 +1,8 @@
-# use merge sort approach to keep
-# track of next winner in ballot list
 
 
-def count_votes(ballots):
+def set_current_winner(ballots):
 
-    votes = dict()
-
-    for ballot in ballots:
-        try:
-            votes[ballot[0]] += 1
-        except:
-            votes[ballot[0]] = 1
-
-    return votes
-
-
-def vote(names, ballots):
-
-    index_to_name = dict()
-
-    for index, name in enumerate(names):
-        index_to_name.setdefault(index+1, name)
-
-    votes = count_votes(ballots)
+    return [(0, ballot) for ballot in ballots]
 
 
 def main():
@@ -37,7 +17,8 @@ def main():
         [3, 1, 2]
     ]
 
-    vote(names, ballots)
+    indexed_ballots = set_current_winner(ballots)
+    print(indexed_ballots)
 
 
 if __name__ == '__main__':
