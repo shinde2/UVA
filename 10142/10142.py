@@ -56,14 +56,14 @@ def set_current_winner(ballots):
 
 def main():
 
-    names = ["_", "a", "b", "c"]
+    names = ["tie", "a", "b", "c"]
 
     ballots = [
         [1, 2, 3],
         [2, 1, 3],
         [2, 3, 1],
-        [1, 2, 3],
-        [3, 1, 2]
+        [1, 2, 3]
+        #[3, 1, 2]
     ]
 
     indexed_ballots = set_current_winner(ballots)
