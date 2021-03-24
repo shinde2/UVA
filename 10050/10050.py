@@ -15,21 +15,19 @@ def hartal(params):
             w = int(ceil(i/7))
             if d != 6 and d != 7:
                 weeks[w][d] = 1
-
-            i += i
+            i += party
 
     for week in weeks[1:]:
         for day in week[1:]:
             if day == 1:
                 lost += 1
 
-    print(weeks)
     print(lost)
 
 
 def main():
 
-    params = [14, 4]
+    params = [100, 12, 15, 25, 40]
 
     hartal(params)
 
