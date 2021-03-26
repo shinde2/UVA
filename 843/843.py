@@ -1,77 +1,61 @@
 
 
-def word_matched(index, word, words):
-
-    return word if len(word) == index+1 and "".join(word) in words else False
+mapped = dict()
 
 
-def get_possibilities(index, word, chars, mapped):
+def word_matched(words, solution):
 
-    if index < len(word):
-        if word[index] in mapped.keys():
-            word[index] = mapped.get(word[index])
-            return list()
-        else:
-            return list(set(chars)-set(mapped.values()))
-    else:
-        return list()
+    return len(words) == len(solution)
 
 
-def backtrack(index, word, chars, mapped, demapped, words):
+def get_possibilities(words, solution, length):
 
-    if word_matched(index, word, words):
-        return word
+    return [word for word in words if len(word) == length and word not in solution]
+
+
+def backtrack(index, words, line, solution):
+
+    global mapped
+
+    if word_matched(words, solution):
+        return
     else:
         index += 1
-        possibilities = get_possibilities(index, word, chars, mapped)
+        possibilities = get_possibilities(words, solution, len(line[index]))
         for possibility in possibilities:
-            mapped.setdefault(word[index], possibility)
-            demapped.setdefault(possibility, word[index])
-            word[index] = possibility
-            found = backtrack(index, word, chars, mapped, demapped, words)
-            if found:
-                return found
+            temp = dict()
+            for i, char in enumerate(possibility):
+                if line[i] in mapped.keys() and line[i] != char:
+                     break
+                else:
+                    temp.setdefault(line[i], char)
             else:
-                k = demapped.get(possibility)
-                word[index] = k
-                del demapped[possibility]
-                del mapped[k]
+                mapped.update(temp)
+                solution[index] = possibility
 
 
-def _back(lines, index, chars, mapped, demapped, words):
+def decrypt(words, line):
 
-    for line in lines:
-        for word in line.split():
-            w = backtrack(index, list(word), chars, mapped, demapped, words)
-            print(w)
-
-
-def decrypt(words, lines):
-
-    chars = list()
-    mapped = dict()
-    demapped = dict()
     index = -1
+    solution = [*] * len(line)
 
-    for word in words:
-        for char in word:
-            if char not in chars:
-                chars.append(char)
+    backtrack(index, words, line, solution)
 
-    _back(lines, index, chars, mapped, demapped, words)
+    return solution
 
 
 def main():
 
-    #words = ["and", "dick", "jane", "puff", "spot", "yertle"]
-    words = ["dick"]
+    words = ["and", "dick", "jane", "puff", "spot", "yertle"]
     lines = [
-        "bjvg"
+        "bjvg xsb hxsn"
         #"bjvg xsb hxsn xsb qymm xsb rqat xsb pnetfn"
         #"xxxx yyy zzzz www yyyy aaa bbbb ccc dddddd"
     ]
 
-    decrypt(words, lines)
+    for line in lines:
+        dec = decrypt(words, line.split())
+        print(dec)
 
 
 if __name__ == '__main__':
