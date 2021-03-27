@@ -8,7 +8,7 @@ def word_matched(index, line):
     return index == len(line)-1
 
 
-def get_possibilities(words, solution, line, index):
+def get_possibilities(words, line, index):
 
     global mapped
     possibilities = list()
@@ -32,7 +32,7 @@ def backtrack(index, words, line, solution):
         return 0
     else:
         index += 1
-        possibilities = get_possibilities(words, solution, line, index)
+        possibilities = get_possibilities(words, line, index)
         for possibility in possibilities:
             temp = list()
             for i, char in enumerate(possibility):
