@@ -1,0 +1,1 @@
+Good example of OrderedDict, generator and nested def.
