@@ -1,8 +1,17 @@
+# tests passed
+
+# nested functions, checking neighbours of point in grid space,
+# non-local
+
+# try to do this using back tracking(don think backtracking
+# is the right approach for this one)
+
 
 def validate(grid, lenght, x, y):
 
     r = len(grid)
     c = len(grid[0])
+    lenght -= 1
 
     #directions = [
     #    (-1, 0), (1, 0), (0, -1), (0, 1),
@@ -52,8 +61,21 @@ def word_exists(grid, word, x, y, u, v):
         return True
 
 
-def check_grid_point(grid, word, r, c):
-
+#def word_exists(grid, word, x, y, u, v):
+#
+#    def word_gen():
+#        nonlocal x
+#        nonlocal y
+#        for _ in range(0, len(word)):
+#            yield grid[x][y]
+#            x += u
+#            y += v
+#
+#    for char in word:
+#        if char.lower() != next(word_gen()).lower():
+#            return False
+#    else:
+#        return True
 
 
 def find_word(grid, words):
@@ -70,19 +92,20 @@ def find_word(grid, words):
                             def dir_loop():
                                 for u, v in directions:
                                     if word_exists(grid, word, r, c, u, v):
-                                        found_words.setdefault(word, (u, v))
+                                        found_words.setdefault(word, (r+1, c+1))
                                         return True
                                 else:
-                                    return None
+                                    return False
                             if dir_loop():
                                 return True
                 if c_loop():
-                    return True
-        if r_loop():
-            break
+                    break
+        r_loop()
 
     for word in words:
-        print(found_words.get(word))
+        if word in found_words.keys():
+            u, v = found_words.get(word)
+            print(f"{u} {v}")
 
 
 def main():
@@ -107,6 +130,7 @@ def main():
 
     for case in cases:
         find_word(*case)
+        print("\n")
 
 
 if __name__ == '__main__':
