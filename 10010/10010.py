@@ -1,45 +1,81 @@
 
+def validate(grid, lenght, x, y):
+
+    r = len(grid)
+    c = len(grid[0])
+
+    #directions = [
+    #    (-1, 0), (1, 0), (0, -1), (0, 1),
+    #    (-1, -1), (-1, 1), (1, -1), (1, 1)
+    #]
+
+    directions = list()
+
+    if x-lenght >= 0:
+        directions.append((-1, 0))
+    if x+lenght < r:
+        directions.append((1, 0))
+    if y+lenght < c:
+        directions.append((0, 1))
+    if y-lenght >= 0:
+        directions.append((0, -1))
+
+    if (0, -1) in directions and (-1, 0) in directions:
+        directions.append((-1, -1))
+    if (0, 1) in directions and (-1, 0) in directions:
+        directions.append((-1, 1))
+    if (1, 0) in directions and (0, -1) in directions:
+        directions.append((1, -1))
+    if (0, 1) in directions and (1, 0) in directions:
+        directions.append((1, 1))
+
+    return directions
+
 
 def word_exists(grid, word, x, y, u, v):
 
     def word_gen():
         nonlocal x
         nonlocal y
+        s = ""
         for _ in range(0, len(word)):
-            yield grid[x][y]
+            s += grid[x][y]
             x += u
             y += v
+        return s
 
+    si = iter(word_gen())
     for char in word:
-        if char != next(word_gen()):
+        if char.lower() != next(si).lower():
             return False
     else:
         return True
 
 
+def check_grid_point(grid, word, r, c):
+
+
+
 def find_word(grid, words):
 
     found_words = dict()
-    directions = [
-        (-1, 0), (1, 0), (0, -1), (0, 1),
-        (-1, -1), (-1, 1), (1, -1), (1, 1)
-    ]
 
     for word in words:
         def r_loop():
             for r, row in enumerate(grid):
                 def c_loop():
                     for c, columns in enumerate(row):
-                        #validate(grid, len(word), r, c)
-                        def dir_loop():
-                            for u, v in directions:
-                                if word_exists(grid, word, r, c, u, v):
-                                    found_words.setdefault(word, (u, v))
-                                    return True
-                            else:
-                                return None
-                        if dir_loop():
-                            return True
+                        directions = validate(grid, len(word), r, c)
+                        if directions:
+                            def dir_loop():
+                                for u, v in directions:
+                                    if word_exists(grid, word, r, c, u, v):
+                                        found_words.setdefault(word, (u, v))
+                                        return True
+                                else:
+                                    return None
+                            if dir_loop():
+                                return True
                 if c_loop():
                     return True
         if r_loop():
@@ -63,13 +99,11 @@ def main():
         words = list()
         for _r in range(1, r+1):
             grid.append(list(lines[i+_r].rstrip()))
-        n = int(lines[i+_r+1].rstrip())
+        n = int(lines[i+r+1].rstrip())
         for _n in range(1, n+1):
-            words.append(lines[i+_n].rstrip())
+            words.append(lines[i+r+1+_n].rstrip())
         cases.append([grid, words])
         i = i + r + 1 + n + 1 + 1
-
-    print(cases)
 
     for case in cases:
         find_word(*case)
