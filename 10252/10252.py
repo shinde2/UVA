@@ -1,9 +1,10 @@
 # tests passed
 
 # current sloution is n2
+# right approach is keeping letter frequencies, linear lime
 
 
-def check(first, second):
+def check_first(first, second):
 
     substring = list()
 
@@ -24,9 +25,9 @@ def main():
         s1 = sorted(lines[i].rstrip())
         s2 = sorted(lines[i+1].rstrip())
         if len(s1) <= len(s2):
-            check(s1, s2)
+            check_first(s1, s2)
         else:
-            check(s2, s1)
+            check_first(s2, s1)
         i += 2
 
 
