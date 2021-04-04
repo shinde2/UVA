@@ -10,7 +10,7 @@ class Edge:
 
 class Graph:
 
-    NVERTICES = 5
+    NVERTICES = 10
 
     def __init__(self, directed=False):
 
