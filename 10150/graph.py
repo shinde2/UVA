@@ -32,11 +32,16 @@ class Graph:
         if directed:
             self.insert_edge(y, x, directed=False)
         else:
+            self.nedges += 1
             self.degree[x] += 1
 
     def has_edge(self, x, y):
 
-        return y in self.edges[x]
+        return self.edges[x] and y in self.edges[x]
+
+    def is_empty(self):
+
+        return self.nedges == 0
 
     def read_graph(self, edges):
 
