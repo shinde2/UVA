@@ -1,39 +1,42 @@
 
+def reverse(current, start, end):
 
-def _flip_1(pancake, count):
+    while start < end:
+        t = current[start]
+        current[start] = current[end]
+        current[end] = t
+        start += 1
+        end -= 1
 
-    if count:
-        ps = count[0]
+
+def done(current):
+
+    for i, j in enumerate(current):
+        if len(current)-i != j:
+            return False
+    return True
+
+
+def flip(current, seq, index):
+
+    if done(current):
+        seq.append(0)
+        return
     else:
-        ps = 0
+        largest = index
+        for i, elm in enumerate(current[index:], start=index):
+            if len(current) - i != elm and elm >= current[largest]:
+                largest = i
 
-    for index, cake in enumerate(pancake[ps:], start=ps):
-        if index != cake:
-            count.append(index)
-            start = index
-            end = len(pancake) - 1
-            while start < end:
-                t = pancake[start]
-                pancake[start] = pancake[end]
-                pancake[end] = t
-                start += 1
-                end -= 1
-            return _flip_1(pancake, count)
+        if largest != len(current)-1:
+            seq.append(largest+1)
+            reverse(current, largest, len(current)-1)
 
-    return count
+        seq.append(index+1)
+        reverse(current, index, len(current)-1)
+        index += 1
 
-
-def flip_1(pancake):
-
-    for index, cake in enumerate(pancake, start=1):
-        if index != cake:
-            count = _flip_1(pancake, [])
-            print(" ".join(pancake))
-            print(" ".join(count))
-            break
-    else:
-        print(" ".join(pancake))
-        print("0")
+        flip(current, seq, index)
 
 
 def main():
@@ -44,10 +47,13 @@ def main():
         lines = f.readlines()
 
     for line in lines:
-        pancakes.append([int(c) for c in line.rstrip()[::-1]])
+        pancakes.append([int(c) for c in line.rstrip().split(" ")[::-1]])
 
     for pancake in pancakes:
-        flip_1(pancake)
+        seq = list()
+        print(" ".join(map(str, pancake[::-1])))
+        flip(pancake, seq, 0)
+        print(" ".join(map(str, seq)))
 
 
 if __name__ == '__main__':
