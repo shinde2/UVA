@@ -1,11 +1,6 @@
 # print sum between matrix (1, 1) and (x, y)
 
 
-def matrix_sum(dp, M, x, y):
-
-    return dp.get(M[x-1][y-1], 0)
-
-
 def init_dp(M):
 
     m = len(M)
