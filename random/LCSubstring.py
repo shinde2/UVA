@@ -33,21 +33,19 @@ def LCSubstring(s1, s2):
 
 def main():
 
-    #s1 = "ashish"
-    #s2 = "mash"
+    substrings = [
+        ["ashish", "mash"],
+        ["abpx", "abqx"],
+        ["abcd", "xyzw"],
+        ["abcd", "abcd"]
+    ]
 
-    #s1 = "abpx"
-    #s2 = "abqx"
-
-    #s1 = "abcd"
-    #s2 = "xyzw"
-
-    s1 = "abcd"
-    s2 = "abcd"
-
-    lcs = LCSubstring(list(s1), list(s2))
-
-    print(f"Longest Common Substring: {lcs}")
+    for substring in substrings:
+        print("-"*40)
+        print(substring[0])
+        print(substring[1])
+        lcs = LCSubstring(list(substring[0]), list(substring[1]))
+        print(f"Longest Common Substring: {lcs}")
 
 
 if __name__ == '__main__':
