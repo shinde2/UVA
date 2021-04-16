@@ -3,6 +3,7 @@ UVA competitive programming challenges
 
 CONCEPTS:
 ch2: ranking and unranking
+ch5: revise big ops
 
 
 TODO:
