@@ -2,8 +2,8 @@
 
 class BigNum:
 
-    def __init__(self, digits=0):
-        self.MAXDIGITS = 5
+    def __init__(self, digits=0, maxdigits=5):
+        self.MAXDIGITS = maxdigits
         self.digits = [0] * self.MAXDIGITS
         self.sign = "-" if digits < 0 else "+"
         self.lastdigit = len(list(map(int, str(digits)))) - 1
