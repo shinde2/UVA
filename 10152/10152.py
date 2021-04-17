@@ -6,7 +6,7 @@ def shell_sort(current, expected):
     current = [[name, i] for i, name in enumerate(current)]
 
     while True:
-    nxt = None
+        nxt = None
         for curr in current:
             if curr[1] > expected.get(curr[0]):
                 if nxt:
