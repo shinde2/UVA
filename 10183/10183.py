@@ -1,3 +1,7 @@
+# simpler way is to generate fibs once and count
+# them for each query.
+# below solution tries approximate method and
+# answer is off by one for some tests
 
 
 def NumFibs(a, b):
