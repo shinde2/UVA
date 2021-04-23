@@ -1,3 +1,5 @@
+# gave up on this one
+# the answer is nc4 + nc2 + 1
 
 
 def lands(n):
