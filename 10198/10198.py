@@ -1,3 +1,5 @@
+# this one also has hard to find
+# recurrence relation
 
 
 total = 0
@@ -8,6 +10,7 @@ def sum_reached(index, s, curr):
     S = sum(curr[:index+1])
     if S == s:
         global total
+        print(curr[:index+1])
         total += 1
         return True
     elif S > s:
