@@ -1,5 +1,7 @@
 # first solution is too slow for large integers
 
+# second: find how many times given prime factor
+#         appears in n!
 
 def first():
 
