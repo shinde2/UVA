@@ -12,5 +12,6 @@ TODO:
 https://www.hackerearth.com/practice/algorithms/dynamic-programming/state-space-reduction/tutorial/ (DP)
 10202(Set, backtracking)
 10104(gcd)
+10089(congruence)
 
 
