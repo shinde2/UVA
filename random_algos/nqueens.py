@@ -75,17 +75,15 @@ def possible_positions(N, grid):
 
     possibilities = list()
     grid_ref = deepcopy(grid)
+    grid_mark = deepcopy(grid)
 
     for i in range(N):
         for j in range(N):
-            row(N, grid, grid_ref, i, j)
-            column(N, grid, grid_ref, i, j)
-            diagonal(N, grid, grid_ref, i, j)
-
-    for i in range(N):
-        for j in range(N):
-            if grid[i][j] == 0:
-                possibilities.append((i, j))
+            if grid_mark[i][j] == 0:
+                if row(N, grid_mark, grid_ref, i, j) and \
+                        column(N, grid_mark, grid_ref, i, j) and \
+                        diagonal(N, grid_mark, grid_ref, i, j):
+                    possibilities.append((i, j))
 
     return possibilities
 
@@ -103,10 +101,6 @@ def nqueens(N, queen, grid, solutions):
             num_ways += 1
     else:
         possibilities = possible_positions(N, grid)
-        print(queen)
-        print(grid)
-        print(possibilities)
-        print("----------------")
         for x, y in possibilities:
             grid[x][y] = 1
             nqueens(N, queen+1, grid, solutions)
@@ -115,7 +109,7 @@ def nqueens(N, queen, grid, solutions):
 
 def main():
 
-    N = 4
+    N = 8
     queen = 0
     grid = [[0 for _ in range(N)] for _ in range(N)]
     global num_ways
