@@ -10,10 +10,10 @@ def found(N, queen):
     return queen == N
 
 
-def traverse_direction(N, grid, i, j, x, y):
+def traverse_direction(N, grid_ref, i, j, x, y):
 
     while 0 <= i < N and 0 <= j < N:
-        if grid[i][j] == 1:
+        if grid_ref[i][j] == 1:
             return False
         i += x
         j += y
@@ -23,20 +23,18 @@ def traverse_direction(N, grid, i, j, x, y):
 
 def traverse_mark(N, grid, i, j, x, y):
 
-    i += x
-    j += y
     while 0 <= i < N and 0 <= j < N:
         grid[i][j] = 1
         i += x
         j += y
 
 
-def diagonal(N, grid, i, j):
+def diagonal(N, grid, grid_ref, i, j):
 
-    t = traverse_direction(N, grid, i, j, -1, -1) and \
-        traverse_direction(N, grid, i, j, 1, 1)
-    b = traverse_direction(N, grid, i, j, 1, -1) and \
-        traverse_direction(N, grid, i, j, -1, 1)
+    t = traverse_direction(N, grid_ref, i, j, -1, -1) and \
+        traverse_direction(N, grid_ref, i, j, 1, 1)
+    b = traverse_direction(N, grid_ref, i, j, 1, -1) and \
+        traverse_direction(N, grid_ref, i, j, -1, 1)
 
     if not t:
         traverse_mark(N, grid, i, j, -1, -1)
@@ -49,10 +47,10 @@ def diagonal(N, grid, i, j):
     return t and b
 
 
-def column(N, grid, i, j):
+def column(N, grid, grid_ref, i, j):
 
-    u = traverse_direction(N, grid, i, j, -1, 0)
-    d = traverse_direction(N, grid, i, j, 1, 0)
+    u = traverse_direction(N, grid_ref, i, j, -1, 0)
+    d = traverse_direction(N, grid_ref, i, j, 1, 0)
 
     if not u or not d:
         traverse_mark(N, grid, i, j, -1, 0)
@@ -61,10 +59,10 @@ def column(N, grid, i, j):
     return u and d
 
 
-def row(N, grid, i, j):
+def row(N, grid, grid_ref, i, j):
 
-    r = traverse_direction(N, grid, i, j, 0, 1)
-    l = traverse_direction(N, grid, i, j, 0, -1)
+    r = traverse_direction(N, grid_ref, i, j, 0, 1)
+    l = traverse_direction(N, grid_ref, i, j, 0, -1)
 
     if not r or not l:
         traverse_mark(N, grid, i, j, 0, 1)
@@ -76,18 +74,19 @@ def row(N, grid, i, j):
 def possible_positions(N, grid):
 
     possibilities = list()
-    grid_new = deepcopy(grid)
+    grid_ref = deepcopy(grid)
 
     for i in range(N):
         for j in range(N):
-            if grid_new[i][j] == 0:
-                if row(N, grid_new, i, j) and \
-                        column(N, grid_new, i, j) and \
-                        diagonal(N, grid_new, i, j):
-                    possibilities.append((i, j))
-                #else:
-                #    grid_new[i][j] = 1
-    print(grid_new)
+            row(N, grid, grid_ref, i, j)
+            column(N, grid, grid_ref, i, j)
+            diagonal(N, grid, grid_ref, i, j)
+
+    for i in range(N):
+        for j in range(N):
+            if grid[i][j] == 0:
+                possibilities.append((i, j))
+
     return possibilities
 
 
