@@ -111,7 +111,7 @@ def main():
 
     N = 8
     queen = 0
-    grid = [[0 for _ in range(N)] for _ in range(N)]
+    grid = [-1 for _ in range(N)]
     global num_ways
 
     num_ways = 0
