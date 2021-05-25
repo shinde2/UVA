@@ -12,38 +12,10 @@ def found(queen, grid):
 def possible_positions(queen, grid):
 
     possibilities = list()
-    N = len(grid)
-    high = N * N
-    low = 0 if queen == 0 else (int(grid[queen-1] / N) + 1) * N
 
-    for n in range(low, high):
-        for q in range(0, queen):
-            if q % N == n % N:
-                break
-        else:
-            possibilities.append(n)
-
-    for q in range(0, queen):
-        n = grid[q]
-        while n < N * N:
-            if n in possibilities:
-                possibilities.remove(n)
-            n += 3
-        n = grid[q]
-        while n < N * N:
-            if n in possibilities:
-                possibilities.remove(n)
-            n += 5
-        n = grid[q]
-        while n >= 0:
-            if n in possibilities:
-                possibilities.remove(n)
-            n -= 5
-        n = grid[q]
-        while n >= 0:
-            if n in possibilities:
-                possibilities.remove(n)
-            n -= 3
+    for c in range(1, len(grid)+1):
+    for q in range(1, queen):
+        if grid[q] == queen + (queen - q) or grid[q] == queen - (queen - q):
 
     return possibilities
 
@@ -54,12 +26,11 @@ def nqueens(queen, grid):
     if found(queen, grid):
         num_ways += 1
     else:
+        queen += 1
         possibilities = possible_positions(queen, grid)
-        #print(queen)
-        #print(possibilities)
         for possibility in possibilities:
             grid[queen] = possibility
-            nqueens(queen+1, grid)
+            nqueens(queen, grid)
 
 
 def main():
