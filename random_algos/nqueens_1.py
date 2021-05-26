@@ -6,16 +6,24 @@ num_ways = 0
 
 def found(queen, grid):
 
-    return queen == len(grid)
+    return queen == len(grid) - 1
 
 
 def possible_positions(queen, grid):
 
     possibilities = list()
 
-    for c in range(1, len(grid)+1):
-    for q in range(1, queen):
-        if grid[q] == queen + (queen - q) or grid[q] == queen - (queen - q):
+    for c in range(1, len(grid)):
+        conflict = False
+
+        for q in range(1, queen):
+            if grid[q] == c + (queen - q) or grid[q] == c - (queen - q):
+                conflict = True
+        for q in range(1, queen):
+            if grid[q] == c:
+                conflict = True
+        if not conflict:
+            possibilities.append(c)
 
     return possibilities
 
@@ -35,9 +43,9 @@ def nqueens(queen, grid):
 
 def main():
 
-    N = 4
+    N = 10
     queen = 0
-    grid = [-1 for _ in range(N)]
+    grid = [-1 for _ in range(N+1)]
     global num_ways
 
     num_ways = 0
