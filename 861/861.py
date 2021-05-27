@@ -5,9 +5,9 @@ from math import ceil
 num_ways = 0
 
 
-def found(queen, grid):
+def found(queen, k):
 
-    return queen == len(grid) - 1
+    return queen == k - 1
 
 
 def possible_positions(queen, grid, n):
@@ -15,55 +15,58 @@ def possible_positions(queen, grid, n):
     N = n * n
     possibilities = list()
 
-    for c in range(grid[queen-1]+1, N+1):
+    for c in range(grid[queen-1]+1, N):
         probable = set()
         k = c
-        while k >= 1:
+        while k >= 0:
             k1 = k - (n-1)
-            if ceil(k/n) - ceil(k1/n) == 1:
-                probable.add(k)
+            if int(k/n) - int(k1/n) == 1:
+                probable.add(k1)
                 k = k1
             else:
                 break
         k = c
-        while k >= 1:
+        while k >= 0:
             k1 = k - (n+1)
-            if ceil(k/n) != ceil(k1/n):
-                probable.add(k)
+            if int(k/n) != int(k1/n):
+                probable.add(k1)
                 k = k1
             else:
                 break
-        if not (set(grid[1:queen]) & probable):
+        if not (set(grid[:queen]) & probable):
             possibilities.append(c)
 
     return possibilities
 
 
-def nqueens(queen, grid, N):
+def nqueens(queen, grid, k, n):
 
     global num_ways
-    if found(queen, grid):
+    if found(queen, k):
         num_ways += 1
     else:
         queen += 1
-        possibilities = possible_positions(queen, grid, N)
-        print(queen)
-        print(possibilities)
+        possibilities = possible_positions(queen, grid, n)
+        #print("----------")
+        #print(num_ways)
+        #print(grid)
+        #print(queen)
+        #print(possibilities)
         for possibility in possibilities:
             grid[queen] = possibility
-            nqueens(queen, grid, N)
+            nqueens(queen, grid, k, n)
 
 
 def main():
 
     n = 3
     k = 2
-    queen = 0
-    grid = [0 for _ in range(k+1)]
+    queen = -1
+    grid = [-1 for _ in range(k)]
     global num_ways
 
     num_ways = 0
-    nqueens(queen, grid, n)
+    nqueens(queen, grid, k, n)
     print(num_ways)
 
 
