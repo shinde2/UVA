@@ -1,5 +1,4 @@
 from pprint import pprint as print
-from math import ceil
 
 
 num_ways = 0
@@ -12,29 +11,21 @@ def found(queen, k):
 
 def possible_positions(queen, grid, n):
 
-    N = n * n
     possibilities = list()
 
-    for c in range(grid[queen-1]+1, N):
-        probable = set()
-        k = c
-        while k >= 0:
-            k1 = k - (n-1)
-            if int(k/n) - int(k1/n) == 1:
-                probable.add(k1)
-                k = k1
-            else:
-                break
-        k = c
-        while k >= 0:
-            k1 = k - (n+1)
-            if int(k/n) != int(k1/n):
-                probable.add(k1)
-                k = k1
-            else:
-                break
-        if not (set(grid[:queen]) & probable):
-            possibilities.append(c)
+    for _n in range(grid[queen-1]+1, n * n):
+        conflicting = set()
+        row = int(_n/n)
+        col = _n % n
+        for r in range(row):
+            c = col + (row - r)
+            if 0 <= c < n:
+                conflicting.add(r * n + c)
+            c = col - (row - r)
+            if 0 <= c < n:
+                conflicting.add(r * n + c)
+        if not (set(grid[:queen]) & conflicting):
+            possibilities.append(_n)
 
     return possibilities
 
@@ -47,11 +38,6 @@ def nqueens(queen, grid, k, n):
     else:
         queen += 1
         possibilities = possible_positions(queen, grid, n)
-        #print("----------")
-        #print(num_ways)
-        #print(grid)
-        #print(queen)
-        #print(possibilities)
         for possibility in possibilities:
             grid[queen] = possibility
             nqueens(queen, grid, k, n)
@@ -59,8 +45,8 @@ def nqueens(queen, grid, k, n):
 
 def main():
 
-    n = 3
-    k = 2
+    n = 8
+    k = 6
     queen = -1
     grid = [-1 for _ in range(k)]
     global num_ways
