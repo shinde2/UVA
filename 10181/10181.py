@@ -9,19 +9,19 @@ def solved(puzzle):
     return puzzle == solution
 
 
-def possibilities(curr, moves, index):
+def possibilities(puzzle, curr, moves, index):
 
     poss = []
 
-    if 0 <= curr + 4 <= 15 and moves[index] != "U":
+    if 0 <= curr + 4 <= 15 and moves[index] != "U" and puzzle[curr+4] < puzzle[curr]:
         poss.append("D")
-    if 0 <= curr + 1 <= 15 and moves[index] != "L":
+    if 0 <= curr + 1 <= 15 and moves[index] != "L" and puzzle[curr+1] < puzzle[curr]:
         poss.append("R")
-    if 0 <= curr - 1 <= 15 and moves[index] != "R":
+    if 0 <= curr - 1 <= 15 and moves[index] != "R" and puzzle[curr-1] > puzzle[curr]:
         poss.append("L")
-    if 0 <= curr - 4 <= 15 and moves[index] != "D":
+    if 0 <= curr - 4 <= 15 and moves[index] != "D" and puzzle[curr-4] > puzzle[curr]:
         poss.append("U")
-
+    print(poss)
     return poss
 
 
@@ -33,7 +33,7 @@ def backtrack(puzzle, curr, moves, index):
         return index
     else:
         index += 1
-        for possibility in possibilities(curr, moves, index-1):
+        for possibility in possibilities(puzzle, curr, moves, index-1):
             if possibility == "U":
                 n = curr-4
             elif possibility == "D":
@@ -50,7 +50,7 @@ def backtrack(puzzle, curr, moves, index):
             i = backtrack(p, n, moves, index)
             if i != -1:
                 return i
-        return i
+        return -1
 
 
 def solve(puzzle):
