@@ -1,4 +1,3 @@
-from copy import deepcopy
 
 
 def solved(puzzle):
@@ -9,19 +8,19 @@ def solved(puzzle):
     return puzzle == solution
 
 
-def possibilities(puzzle, curr, moves, index):
+def possibilities(curr, moves, index):
 
     poss = []
 
-    if 0 <= curr + 4 <= 15 and moves[index] != "U" and puzzle[curr+4] < puzzle[curr]:
+    if 0 <= curr + 4 <= 15 and moves[index] != "U":
         poss.append("D")
-    if 0 <= curr + 1 <= 15 and moves[index] != "L" and puzzle[curr+1] < puzzle[curr]:
+    if 0 <= curr + 1 <= 15 and moves[index] != "L":
         poss.append("R")
-    if 0 <= curr - 1 <= 15 and moves[index] != "R" and puzzle[curr-1] > puzzle[curr]:
+    if 0 <= curr - 1 <= 15 and moves[index] != "R":
         poss.append("L")
-    if 0 <= curr - 4 <= 15 and moves[index] != "D" and puzzle[curr-4] > puzzle[curr]:
+    if 0 <= curr - 4 <= 15 and moves[index] != "D":
         poss.append("U")
-    print(poss)
+
     return poss
 
 
@@ -33,21 +32,23 @@ def backtrack(puzzle, curr, moves, index):
         return index
     else:
         index += 1
-        for possibility in possibilities(puzzle, curr, moves, index-1):
+        for possibility in possibilities(curr, moves, index-1):
             if possibility == "U":
-                n = curr-4
+                nxt = curr-4
             elif possibility == "D":
-                n = curr+4
+                nxt = curr+4
             elif possibility == "L":
-                n = curr-1
+                nxt = curr-1
             else:
-                n = curr+1
-            p = deepcopy(puzzle)
-            t = p[n]
-            p[n] = 0
-            p[curr] = t
+                nxt = curr+1
+            temp = puzzle[nxt]
+            puzzle[nxt] = puzzle[curr]
+            puzzle[curr] = temp
             moves.append(possibility)
-            i = backtrack(p, n, moves, index)
+            i = backtrack(puzzle, nxt, moves, index)
+            temp = puzzle[nxt]
+            puzzle[nxt] = puzzle[curr]
+            puzzle[curr] = temp
             if i != -1:
                 return i
         return -1
