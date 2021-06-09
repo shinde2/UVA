@@ -12,13 +12,13 @@ def possibilities(curr, moves, index):
 
     poss = []
 
-    if 0 <= curr + 4 <= 15 and moves[index] != "U":
+    if 0 <= int(curr / 4) + 1 <= 3 and moves[index] != "U":
         poss.append("D")
-    if 0 <= curr + 1 <= 15 and moves[index] != "L":
+    if 0 <= (curr % 4)+1 <= 3 and moves[index] != "L":
         poss.append("R")
-    if 0 <= curr - 1 <= 15 and moves[index] != "R":
+    if 0 <= (curr % 4)-1 <= 3 and moves[index] != "R":
         poss.append("L")
-    if 0 <= curr - 4 <= 15 and moves[index] != "D":
+    if 0 <= int(curr / 4) - 1 <= 3 and moves[index] != "D":
         poss.append("U")
 
     return poss
