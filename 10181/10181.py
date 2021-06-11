@@ -8,17 +8,17 @@ def solved(puzzle):
     return puzzle == solution
 
 
-def possibilities(curr, moves, index):
+def possibilities(puzzle, curr, moves, index):
 
     poss = []
 
-    if 0 <= int(curr / 4) + 1 <= 3 and moves[index] != "U":
+    if 0 <= int(curr / 4) + 1 <= 3 and moves[index] != "U" and puzzle[curr+4] <= curr+1:
         poss.append("D")
-    if 0 <= (curr % 4)+1 <= 3 and moves[index] != "L":
+    if 0 <= (curr % 4) + 1 <= 3 and moves[index] != "L" and puzzle[curr+1] <= curr+1:
         poss.append("R")
-    if 0 <= (curr % 4)-1 <= 3 and moves[index] != "R":
+    if 0 <= (curr % 4) - 1 <= 3 and moves[index] != "R" and puzzle[curr-1] >= curr+1:
         poss.append("L")
-    if 0 <= int(curr / 4) - 1 <= 3 and moves[index] != "D":
+    if 0 <= int(curr / 4) - 1 <= 3 and moves[index] != "D" and puzzle[curr-4] >= curr+1:
         poss.append("U")
 
     return poss
@@ -32,7 +32,7 @@ def backtrack(puzzle, curr, moves, index):
         return index
     else:
         index += 1
-        for possibility in possibilities(curr, moves, index-1):
+        for possibility in possibilities(puzzle, curr, moves, index-1):
             if possibility == "U":
                 nxt = curr-4
             elif possibility == "D":
