@@ -1,7 +1,30 @@
 
+def max_sum_index(nums):
+
+    for num in nums:
+        max_sum = float("-inf")
+        cur_sum = float("-inf")
+        cs = 0
+        ce = 0
+        bs = -1
+        be = -1
+        for i, n in enumerate(num):
+            if n > cur_sum+n:
+                cur_sum = n
+                cs = i
+                ce = i
+            else:
+                cur_sum = cur_sum+n
+                ce = i
+            if cur_sum > max_sum:
+                max_sum = cur_sum
+                bs = cs
+                be = ce
+        print(max_sum, bs, be)
+
 
 # min sub array sum
-def min_sum(nums):
+def min_sum_subarray(nums):
 
     for num in nums:
         min_sum = float("inf")
@@ -13,7 +36,7 @@ def min_sum(nums):
 
 
 # max sub array sum
-def max_sum(nums):
+def max_sum_subarray(nums):
 
     for num in nums:
         max_sum = float("-inf")
@@ -33,7 +56,8 @@ if __name__ == '__main__':
         [-4, 2, -6], #2 -8
     ]
 
-    max_sum(nums)
+    max_sum_subarray(nums)
     print("----")
-    min_sum(nums)
+    min_sum_subarray(nums)
     print("----")
+    max_sum_index(nums)
