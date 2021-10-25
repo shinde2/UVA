@@ -11,13 +11,12 @@ vector<int> st(4 * mx);
 
 int sum(int v, int l, int r, int li, int ri){
 
-    if(li == l and ri == r) return st[v];
+    if(li > ri) return 0;
+    else if(li == l and ri == r) return st[v];
     else{
         int mid = (l + r) / 2;
-        if(ri <= mid) return sum(2 * v, l, mid, li, ri);
-        else if(li > mid) return sum((2 * v) + 1, mid + 1, r, li, ri);
-        else return (sum(2 * v, l, mid, li, mid) +
-                     sum((2 * v) + 1, mid + 1, r, mid + 1, ri));
+        return (sum(2 * v, l, mid, li, min(ri, mid)) +
+                sum((2 * v) + 1, mid + 1, r, max(li, mid + 1), ri));
     }
 
 }
