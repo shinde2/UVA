@@ -1,5 +1,5 @@
 # UVA
-UVA competitive programming challenges
+UVA challenges
 
 
 
